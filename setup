@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Welcome to bash"
+
+echo -n "what is the name of the app you need? "
+
+read -e APPNAME
+
+echo Creating Laravel App
+
+sudo composer create-project laravel/laravel  $APPNAME  --prefer-dist
+
+echo -n "what is the name of the database for this app? "
+
+read -e DATABASE
+
+cd $APPNAME
+sudo chmod -R 777 app/storage
+
+sudo gsed -i "s/'database'  => 'database'/'database'  => '$DATABASE'/" app/config/database.php
+
+echo Creating MySql database
+
+mysql -uroot -p -e "CREATE DATABASE $DATABASE"
+
